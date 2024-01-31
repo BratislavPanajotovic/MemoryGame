@@ -1,0 +1,8 @@
+.icon {
+    height: 75px;
+    width: 75px;
+}
+.img-container img{
+width: 55%;
+object-fit: contain;
+}
