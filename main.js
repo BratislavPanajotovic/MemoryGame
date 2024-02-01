@@ -13,6 +13,7 @@ let coverCard = ["icons/questionmark.jpg"];
 
 console.log(src.length);
 console.log(src);
+
 if(beginner.checked == true) {
     picMaker(src, 4, 4);
 }
@@ -32,6 +33,11 @@ professional.addEventListener("click", () => {
 expert.addEventListener("click", () => {
     picMaker(src, 10, 10);
 });
-divTable.addEventListener("click", ()=> {
-startTimer();
-})
+
+let timerStarted = false;
+divTable.addEventListener("click", () => {
+    if (!timerStarted) {
+        startTimer();
+        timerStarted = true;
+    }
+});

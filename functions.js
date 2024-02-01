@@ -22,16 +22,63 @@ function picMaker(src, rows, cols) {
     shuffleArray(randomCards);
 
     let table = document.createElement('table');
+    
+    let flippedCards = []; // Array to store flipped cards
+    let matchingCount = 0; // Variable to track the number of matching pairs
+
+    function removeSrc() {
+        // Revert the source to 'questionmark.jpg' for all flipped cards
+        flippedCards.forEach(card => {
+            card.setAttribute('src', 'icons/questionmark.jpg');
+        });
+        flippedCards = []; // Clear the array
+    }
 
     for (let i = 0; i < rows; i++) {
         let row = document.createElement('tr');
 
         for (let j = 0; j < cols; j++) {
             let cell = document.createElement('td');
+            cell.setAttribute('class', 'card'); // Set a class for styling
 
+            // Set data attributes to store the index information
+            cell.setAttribute('data-row', i);
+            cell.setAttribute('data-col', j);
+
+            // Create an image element and set its source to the default value
             let img = document.createElement('img');
             img.setAttribute('class', 'icon');
-            img.setAttribute('src', randomCards[i * cols + j]);
+            img.classList.add("default");
+            img.setAttribute('src', 'icons/questionmark.jpg');
+
+            // Add click event listener to each td element
+            cell.addEventListener('click', function() {
+                let currentRow = parseInt(this.getAttribute('data-row'));
+                let currentCol = parseInt(this.getAttribute('data-col'));
+
+                // Check if the card is already flipped or is currently being revealed
+                if (!flippedCards.includes(img) && flippedCards.length < 2) {
+                    img.setAttribute('src', randomCards[currentRow * cols + currentCol]);
+                    flippedCards.push(img);
+
+                    // Check if two cards are flipped and they match
+                    if (flippedCards.length === 2 && flippedCards[0].src === flippedCards[1].src) {
+                        matchingCount++; // Increment the matching count
+                        flippedCards = []; // Clear the array
+                    } else if (flippedCards.length === 2) {
+                        // If two cards are flipped but they don't match, revert the source after a brief delay
+                        setTimeout(removeSrc, 2000);
+                    }
+
+                    // Check if all pairs are matched
+                    if (matchingCount === count / 2) {
+                        stopTimer();
+                        alert(`You won! This is your time : ${timerValue} `)
+                        console.log("Game Over! All pairs matched.");
+                        // You can add your logic here for what to do when the game is over
+                    }
+                }
+            });
 
             cell.appendChild(img);
             row.appendChild(cell);
@@ -44,6 +91,9 @@ function picMaker(src, rows, cols) {
     divTable.appendChild(table);
 }
 
+
+
+
 let timerValue = 0;
     let timerId;
 
@@ -53,7 +103,8 @@ let timerValue = 0;
     }
 
     function startTimer() {
-      timerId = setInterval(updateTimer, 1000); // 1000 milliseconds = 1 second
+        console.log("Timer started");
+        timerId = setInterval(updateTimer, 1000); 
     }
 
     function stopTimer() {
