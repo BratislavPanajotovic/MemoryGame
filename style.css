@@ -6,3 +6,7 @@
 width: 55%;
 object-fit: contain;
 }
+td {
+width:85px;
+height: 85px;
+}

@@ -1,4 +1,7 @@
 let divTable = document.getElementById('table');
+let user = document.querySelector('#user');
+
+
 
 function getRandomCards(src, count) {
     let uniquePics = Array.from(new Set(src)); // Remove duplicates from src
@@ -74,6 +77,9 @@ function picMaker(src, rows, cols) {
                     if (matchingCount === count / 2) {
                         stopTimer();
                         alert(`You won! This is your time : ${timerValue} `)
+                        localStorage.setItem("user", user.value);
+                        localStorage.setItem("time", timerValue)
+
                         console.log("Game Over! All pairs matched.");
                         // You can add your logic here for what to do when the game is over
                     }
