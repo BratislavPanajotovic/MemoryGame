@@ -73,15 +73,15 @@ username.addEventListener("keyup", function (event) {
         showTimer.innerHTML = "";
     }
 });
-
-
-let timerStarted = false;
-divTable.addEventListener("click", () => {
-    beginner.disabled = true;;
+const clickEventHandler = () => {
+    beginner.disabled = true;
     intermediate.disabled = true;
-    professional.disabled=true;
-    expert.disabled=true;
+    professional.disabled = true;
+    expert.disabled = true;
     if (!timerStarted) {
         timerStarted = true;
     }
-});
+};
+
+let timerStarted = false;
+divTable.addEventListener("click", clickEventHandler);
