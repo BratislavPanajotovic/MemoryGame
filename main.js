@@ -82,7 +82,6 @@ divTable.addEventListener("click", () => {
     professional.disabled=true;
     expert.disabled=true;
     if (!timerStarted) {
-        // startTimer();
         timerStarted = true;
     }
 });
