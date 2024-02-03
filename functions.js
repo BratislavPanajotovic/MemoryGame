@@ -76,12 +76,27 @@ function picMaker(src, rows, cols) {
                     // Check if all pairs are matched
                     if (matchingCount === count / 2) {
                         stopTimer();
-                        alert(`You won! This is your time : ${timerValue} `)
-                        localStorage.setItem("user", user.value);
-                        localStorage.setItem("time", timerValue)
-
-                        console.log("Game Over! All pairs matched.");
-                        // You can add your logic here for what to do when the game is over
+                    
+                        // Prikazi confirm dijalog
+                        const playAgain = window.confirm(`You won! Your time: ${timerValue} seconds! Do you want to have a new try?`);
+                    
+                        if (playAgain) {
+                            // Ako korisnik odgovori sa 'OK' (true), pokreni novu igru ili izvrši druge radnje
+                            localStorage.setItem("user", user.value);
+                            localStorage.setItem("time", timerValue);
+                            console.log("Game Over! All pairs matched.");
+                    
+                            // Resetuj igru ili izvrši druge radnje kako je potrebno
+                            // Na primer, pozovi funkciju za ponovno pokretanje igre ili prikaži novu tablu
+                            beginner.disabled = false;
+                            intermediate.disabled = false;
+                            professional.disabled = false;
+                            expert.disabled = false;
+                                                        // Add additional actions you want to perform when the user clicks "OK"
+                        } else {
+                            // Ako korisnik odgovori s 'Cancel' (false), možeš izvršiti druge radnje ili ostaviti trenutno stanje
+                            console.log("Game Over! All pairs matched, but user chose not to play again.");
+                        }
                     }
                 }
             });
@@ -105,7 +120,8 @@ let timerValue = 0;
 
     function updateTimer() {
       timerValue++;
-      document.getElementById('timer').innerText = timerValue;
+      document.getElementById('timer').innerText = "Your time: ";
+      document.getElementById('timer').innerText += timerValue;
     }
 
     function startTimer() {
