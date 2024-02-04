@@ -1,6 +1,7 @@
 let src = ["icons/ai.png","icons/amazon.png","icons/apple.webp","icons/beats.png","icons/chrome.png","icons/clc.png","icons/css.png","icons/deezer.png","icons/docker.jpg","icons/e.png","icons/ea.png","icons/excell.png","icons/fb.png","icons/gh.webp","icons/ghome.webp","icons/git.png","icons/google.png","icons/gpt.png","icons/html.png","icons/http.png","icons/in.png","icons/insta-old.jpg","icons/it-bootcamp.jpg","icons/jordan.png","icons/js.png","icons/lens.png","icons/location.png","icons/mail.png","icons/microsoft.png","icons/msg.webp","icons/mssg.jpg","icons/netflix.png","icons/nike.png","icons/office.png","icons/php.png","icons/play.webp","icons/pp.png","icons/py.png","icons/React-icon.svg.png","icons/slack.png","icons/spotify.png","icons/teams.png","icons/telegram.png","icons/time.jpg","icons/time.jpg","icons/twitter.png","icons/viber.png","icons/wa.jpg","icons/worf.png","icons/yt.png","icons/gdrive.png"];
 
-import { getRandomCards, shuffleArray, picMaker, updateTimer, startTimer, stopTimer } from './functions.js';
+import { getRandomCards, shuffleArray, picMaker, updateTimer, startTimer, stopTimer, checkGameCompletion } from './functions.js';
+
 
 
 let beginner = document.querySelector('#beginner');
@@ -21,11 +22,13 @@ intermediate.disabled = true;
 professional.disabled = true;
 expert.disabled = true;
 
+let currentUsername;
+
 username.addEventListener("keyup", function (event) {
     if (event.keyCode === 13) {
-        let usernameValue = username.value.trim();
+       let currentUsername = username.value.trim();
 
-        if (usernameValue === '' || usernameValue.length <= 3) {
+        if (currentUsername === '' || currentUsername.length <= 3) {
             alert('Please enter a valid username!');
         } else {
             memoryGame.innerHTML = "Memory Game!";
@@ -33,14 +36,39 @@ username.addEventListener("keyup", function (event) {
             intermediate.disabled = false;
             professional.disabled = false;
             expert.disabled = false;
-
             event.preventDefault();
-
-            username.placeholder = usernameValue;
-            localStorage.setItem("User", usernameValue);
+            username.placeholder = currentUsername;
+            stopTimer();
+            timerValue = 0;
+            // document.getElementById('timer').innerText = "Your time: 0";
         }
     }
 });
+
+
+
+let selectedDifficulty;
+beginner.addEventListener("click", () => {
+    selectedDifficulty = 'beginner';
+    picMaker(src, 4, 4, currentUsername);
+});
+
+intermediate.addEventListener("click", () => {
+    selectedDifficulty = 'intermediate';
+    picMaker(src, 6, 6,currentUsername);
+});
+
+professional.addEventListener("click", () => {
+    selectedDifficulty = 'professional';
+    picMaker(src, 8, 8,currentUsername);
+});
+
+expert.addEventListener("click", () => {
+    selectedDifficulty = 'expert';
+
+    picMaker(src, 10, 10,currentUsername);
+});
+let timerStarted = false;
 
 const clickEventHandler = () => {
     beginner.disabled = true;
@@ -54,25 +82,5 @@ const clickEventHandler = () => {
     }
 };
 
-let timerStarted = false;
+
 divTable.addEventListener("click", clickEventHandler);
-
-beginner.addEventListener("click", () => {
-    picMaker(src, 4, 4);
-    displayAllUserRankings();
-});
-
-intermediate.addEventListener("click", () => {
-    picMaker(src, 6, 6);
-    displayAllUserRankings();
-});
-
-professional.addEventListener("click", () => {
-    picMaker(src, 8, 8);
-    displayAllUserRankings();
-});
-
-expert.addEventListener("click", () => {
-    picMaker(src, 10, 10);
-    displayAllUserRankings();
-});

@@ -1,5 +1,7 @@
 let divTable = document.getElementById('table');
 let clickEventHandler;
+let selectedDifficulty;
+let currentUsername;
 
 function removeClickListener() {
     divTable.removeEventListener('click', clickEventHandler);
@@ -20,17 +22,16 @@ function shuffleArray(array) {
     return array;
 }
 
-function checkGameCompletion(difficulty) {
+function checkGameCompletion(selectedDifficulty,currentUsername) {
     stopTimer();
-    const username = localStorage.getItem("User");
     const time = timerValue;
 
-    const userResults = JSON.parse(localStorage.getItem(difficulty)) || [];
-    userResults.push({ username, time });
+    const userResults = JSON.parse(localStorage.getItem("Users")) || [];
+    userResults.push({ username: currentUsername, time });
 
     userResults.sort((a, b) => a.time - b.time);
 
-    localStorage.setItem(difficulty, JSON.stringify(userResults));
+    localStorage.setItem("Users", JSON.stringify(userResults));
 
     const playAgain = window.confirm(`You won! Your time: ${time} seconds! Do you want to have a new try?`);
 
@@ -40,6 +41,7 @@ function checkGameCompletion(difficulty) {
         professional.disabled = false;
         expert.disabled = false;
         timerValue = 0;
+        stopTimer();
         document.querySelector('#timer').innerHTML = "Your time: 0";
         removeClickListener();
         divTable.innerHTML = "";
@@ -48,7 +50,8 @@ function checkGameCompletion(difficulty) {
     }
 }
 
-function picMaker(src, rows, cols) {
+
+function picMaker(src, rows, cols, currentUsername) {
     let shuffledSrc = shuffleArray([...src]);
     let count = rows * cols;
     let randomCards = getRandomCards(shuffledSrc, count);
@@ -79,7 +82,7 @@ function picMaker(src, rows, cols) {
                 flippedCards = [];
 
                 if (matchingCount === count / 2) {
-                    checkGameCompletion();
+                    checkGameCompletion(selectedDifficulty, currentUsername);
                 }
             } else if (flippedCards.length === 2) {
                 setTimeout(removeSrc, 2000);
@@ -132,4 +135,6 @@ function stopTimer() {
     clearInterval(timerId);
 }
 
-export { getRandomCards, shuffleArray, picMaker, updateTimer, startTimer, stopTimer, removeClickListener };
+export { getRandomCards, shuffleArray, picMaker, updateTimer, startTimer, stopTimer, removeClickListener, checkGameCompletion };
+
+
