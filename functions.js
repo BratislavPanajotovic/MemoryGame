@@ -1,7 +1,9 @@
 let divTable = document.getElementById('table');
-let user = document.querySelector('#user');
-
 let clickEventHandler;
+
+function removeClickListener() {
+    divTable.removeEventListener('click', clickEventHandler);
+}
 
 function getRandomCards(src, count) {
     let uniquePics = Array.from(new Set(src));
@@ -18,8 +20,32 @@ function shuffleArray(array) {
     return array;
 }
 
-function removeClickListener() {
-    divTable.removeEventListener('click', clickEventHandler);
+function checkGameCompletion(difficulty) {
+    stopTimer();
+    const username = localStorage.getItem("User");
+    const time = timerValue;
+
+    const userResults = JSON.parse(localStorage.getItem(difficulty)) || [];
+    userResults.push({ username, time });
+
+    userResults.sort((a, b) => a.time - b.time);
+
+    localStorage.setItem(difficulty, JSON.stringify(userResults));
+
+    const playAgain = window.confirm(`You won! Your time: ${time} seconds! Do you want to have a new try?`);
+
+    if (playAgain) {
+        beginner.disabled = false;
+        intermediate.disabled = false;
+        professional.disabled = false;
+        expert.disabled = false;
+        timerValue = 0;
+        document.querySelector('#timer').innerHTML = "Your time: 0";
+        removeClickListener();
+        divTable.innerHTML = "";
+    } else {
+        console.log("Game Over! All pairs matched, but the user chose not to play again.");
+    }
 }
 
 function picMaker(src, rows, cols) {
@@ -29,7 +55,6 @@ function picMaker(src, rows, cols) {
     shuffleArray(randomCards);
 
     let table = document.createElement('table');
-    
     let flippedCards = [];
     let matchingCount = 0;
 
@@ -38,6 +63,28 @@ function picMaker(src, rows, cols) {
             card.setAttribute('src', 'icons/questionmark.jpg');
         });
         flippedCards = [];
+    }
+
+    function handleClick() {
+        let currentRow = parseInt(this.getAttribute('data-row'));
+        let currentCol = parseInt(this.getAttribute('data-col'));
+        let img = this.querySelector('img');
+
+        if (!flippedCards.includes(img) && flippedCards.length < 2) {
+            img.setAttribute('src', randomCards[currentRow * cols + currentCol]);
+            flippedCards.push(img);
+
+            if (flippedCards.length === 2 && flippedCards[0].src === flippedCards[1].src) {
+                matchingCount++;
+                flippedCards = [];
+
+                if (matchingCount === count / 2) {
+                    checkGameCompletion();
+                }
+            } else if (flippedCards.length === 2) {
+                setTimeout(removeSrc, 2000);
+            }
+        }
     }
 
     for (let i = 0; i < rows; i++) {
@@ -54,55 +101,8 @@ function picMaker(src, rows, cols) {
             img.classList.add("default");
             img.setAttribute('src', 'icons/questionmark.jpg');
 
-            cell.addEventListener('click', function() {
-                let currentRow = parseInt(this.getAttribute('data-row'));
-                let currentCol = parseInt(this.getAttribute('data-col'));
+            cell.addEventListener('click', handleClick);
 
-                clickEventHandler = function () {
-                    beginner.disabled = true;
-                    intermediate.disabled = true;
-                    professional.disabled = true;
-                    expert.disabled = true;
-                    if (!timerStarted) {
-                        timerStarted = true;
-                    }
-                };
-
-                if (!flippedCards.includes(img) && flippedCards.length < 2) {
-                    img.setAttribute('src', randomCards[currentRow * cols + currentCol]);
-                    flippedCards.push(img);
-
-                    if (flippedCards.length === 2 && flippedCards[0].src === flippedCards[1].src) {
-                        matchingCount++;
-                        flippedCards = [];
-                    } else if (flippedCards.length === 2) {
-                        setTimeout(removeSrc, 2000);
-                    }
-
-                    if (matchingCount === count / 2) {
-                        stopTimer();
-                    
-                        const playAgain = window.confirm(`You won! Your time: ${timerValue} seconds! Do you want to have a new try?`);
-                    
-                        if (playAgain) {
-                            localStorage.setItem("user", user.value);
-                            localStorage.setItem("time", timerValue);
-                            console.log("Game Over! All pairs matched.");
-                            beginner.disabled = false;
-                            intermediate.disabled = false;
-                            professional.disabled = false;
-                            expert.disabled = false;
-                            stopTimer();
-                            timerValue = 0;
-                            document.querySelector('#timer').innerHTML = "Your time:0";
-                            removeClickListener();
-                        } else {
-                            console.log("Game Over! All pairs matched, but user chose not to play again.");
-                        }
-                    }
-                }
-            });
-            
             cell.appendChild(img);
             row.appendChild(cell);
         }
