@@ -2,6 +2,8 @@ let divTable = document.getElementById('table');
 let clickEventHandler;
 let selectedDifficulty;
 let currentUsername;
+let timerStarted;
+let matchingCount = 0;
 
 function removeClickListener() {
     divTable.removeEventListener('click', clickEventHandler);
@@ -21,37 +23,22 @@ function shuffleArray(array) {
     }
     return array;
 }
-
-function checkGameCompletion(selectedDifficulty,currentUsername) {
-    stopTimer();
-    const time = timerValue;
-
-    const userResults = JSON.parse(localStorage.getItem("Users")) || [];
-    userResults.push({ username: currentUsername, time });
-
-    userResults.sort((a, b) => a.time - b.time);
-
-    localStorage.setItem("Users", JSON.stringify(userResults));
-
-    const playAgain = window.confirm(`You won! Your time: ${time} seconds! Do you want to have a new try?`);
-
-    if (playAgain) {
-        beginner.disabled = false;
-        intermediate.disabled = false;
-        professional.disabled = false;
-        expert.disabled = false;
-        timerValue = 0;
-        stopTimer();
-        document.querySelector('#timer').innerHTML = "Your time: 0";
-        removeClickListener();
-        divTable.innerHTML = "";
-    } else {
-        console.log("Game Over! All pairs matched, but the user chose not to play again.");
+function getRowsColsFromDifficulty(difficulty) {
+    switch (difficulty) {
+        case 'beginner':
+            return 4;
+        case 'intermediate':
+            return 6;
+        case 'professional':
+            return 8;
+        case 'expert':
+            return 10;
+        default:
+            return 4; // Default to beginner if difficulty is not recognized
     }
 }
 
-
-function picMaker(src, rows, cols, currentUsername) {
+function picMaker(src, rows, cols, currentUsername, gameCompletionCallback) {
     let shuffledSrc = shuffleArray([...src]);
     let count = rows * cols;
     let randomCards = getRandomCards(shuffledSrc, count);
@@ -82,7 +69,7 @@ function picMaker(src, rows, cols, currentUsername) {
                 flippedCards = [];
 
                 if (matchingCount === count / 2) {
-                    checkGameCompletion(selectedDifficulty, currentUsername);
+                    checkGameCompletion();
                 }
             } else if (flippedCards.length === 2) {
                 setTimeout(removeSrc, 2000);
@@ -115,6 +102,27 @@ function picMaker(src, rows, cols, currentUsername) {
 
     divTable.innerHTML = '';
     divTable.appendChild(table);
+
+    function checkGameCompletion() {
+        stopTimer();
+        const time = timerValue;
+
+        let userResults = JSON.parse(localStorage.getItem(selectedDifficulty)) || [];
+
+        // Add the current result to the array
+        userResults.push({ username: currentUsername, time });
+
+        // Sort the results based on time in ascending order
+        userResults.sort((a, b) => a.time - b.time);
+
+        // Keep only the top 5 results
+        userResults = userResults.slice(0, 5);
+
+        // Save the updated results back to localStorage using the selectedDifficulty as the key
+        localStorage.setItem(selectedDifficulty || 'beginner', JSON.stringify(userResults));
+
+        gameCompletionCallback();  // Call the provided callback
+    }
 }
 
 let timerValue = 0;
@@ -135,6 +143,14 @@ function stopTimer() {
     clearInterval(timerId);
 }
 
-export { getRandomCards, shuffleArray, picMaker, updateTimer, startTimer, stopTimer, removeClickListener, checkGameCompletion };
-
+export {
+    getRandomCards,
+    shuffleArray,
+    picMaker,
+    updateTimer,
+    startTimer,
+    stopTimer,
+    removeClickListener,
+    getRowsColsFromDifficulty
+};
 
