@@ -3,6 +3,7 @@ let src = ["icons/ai.png","icons/amazon.png","icons/apple.webp","icons/beats.png
 import { getRandomCards, shuffleArray, picMaker, updateTimer, startTimer, stopTimer,getRowsColsFromDifficulty,removeClickListener } from './functions.js';
 
 
+let timerValue = 0;
 
 let beginner = document.querySelector('#beginner');
 let intermediate = document.querySelector('#intermediate');
@@ -91,6 +92,7 @@ function handleGameCompletion() {
         intermediate.disabled = false;
         professional.disabled = false;
         expert.disabled = false;
+        stopTimer();
         timerValue = 0;
         timerStarted = false;
         removeClickListener();

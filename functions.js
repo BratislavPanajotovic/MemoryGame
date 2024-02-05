@@ -104,8 +104,8 @@ function picMaker(src, rows, cols, currentUsername, gameCompletionCallback) {
     divTable.appendChild(table);
 
     function checkGameCompletion() {
-        stopTimer();
         const time = timerValue;
+        stopTimer();
 
         let userResults = JSON.parse(localStorage.getItem(selectedDifficulty)) || [];
 
@@ -141,6 +141,7 @@ function startTimer() {
 
 function stopTimer() {
     clearInterval(timerId);
+    timerValue = 0;
 }
 
 export {
