@@ -63,7 +63,7 @@ let src = [
   "icons/gdrive.png",
 ];
 
-let timerValue = 0;
+let timerStarted = false;
 
 let beginner = document.querySelector("#beginner");
 let intermediate = document.querySelector("#intermediate");
@@ -96,7 +96,7 @@ username.addEventListener("keyup", function (event) {
       expert.disabled = false;
       event.preventDefault();
       username.placeholder = currentUsername;
-      stopTimer();
+      timerStarted = false;
     }
   }
 });
@@ -122,18 +122,24 @@ expert.addEventListener("click", () => {
   picMaker(src, 10, 10);
 });
 
-let timerStarted = false;
-
 const clickEventHandler = () => {
+  console.log("Entering clickEventHandler");
+  console.log("timerStarted before click:", timerStarted);
+
   beginner.disabled = true;
   intermediate.disabled = true;
   professional.disabled = true;
   expert.disabled = true;
 
   if (!timerStarted) {
+    console.log("Starting timer...");
     startTimer();
     timerStarted = true;
   }
+
+  console.log("Exiting clickEventHandler");
+  console.log("timerStarted after click:", timerStarted);
 };
 
 divTable.addEventListener("click", clickEventHandler);
+export { clickEventHandler };

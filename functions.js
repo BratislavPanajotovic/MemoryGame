@@ -1,5 +1,6 @@
+import { clickEventHandler } from "./main.js";
+
 let divTable = document.getElementById("table");
-let clickEventHandler;
 let selectedDifficulty;
 let currentUsername;
 let timerStarted;
@@ -72,7 +73,7 @@ function picMaker(src, rows, cols) {
         flippedCards = [];
 
         if (matchingCount === count / 2) {
-          checkGameCompletion();
+          setTimeout(checkGameCompletion, 1000);
         }
       } else if (flippedCards.length === 2) {
         setTimeout(removeSrc, 2000);
@@ -124,30 +125,6 @@ function startTimer() {
 function stopTimer() {
   clearInterval(timerId);
   timerValue = 0;
-}
-
-function checkGameCompletion() {
-  const time = timerValue;
-  const playAgain = window.confirm(
-    `You won! Your time: ${time} seconds! Do you want to have a new try?`
-  );
-
-  if (playAgain) {
-    beginner.disabled = false;
-    intermediate.disabled = false;
-    professional.disabled = false;
-    expert.disabled = false;
-    timerStarted = false;
-    removeClickListener();
-    divTable.innerHTML = "";
-    stopTimer();
-    timerValue = 0;
-    document.querySelector("#timer").innerHTML = "Your time: 0";
-  } else {
-    console.log(
-      "Game Over! All pairs matched, but the user chose not to play again."
-    );
-  }
 }
 
 export {
