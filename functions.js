@@ -16,7 +16,7 @@ function shuffleArray(array) {
   return array;
 }
 
-function picMaker(src, rows, cols) {
+function picMaker(src, rows, cols, selectedDifficulty) {
   let shuffledSrc = shuffleArray([...src]);
   let count = rows * cols;
   let randomCards = getRandomCards(shuffledSrc, count);
@@ -81,6 +81,56 @@ function picMaker(src, rows, cols) {
     table.appendChild(row);
   }
 
+  function checkGameCompletion() {
+    const time = timerValue;
+    divTable.innerHTML = "";
+    const playAgain = window.confirm(
+      `You won! Your time: ${time} seconds! Do you want to have a new try?`
+    );
+    let users = [];
+    let username = document.querySelector("#user");
+    let times = [];
+    users.push(username.value);
+    times.push(time);
+
+    let userTimePair = { user: users[0], time: times[0] };
+
+    let difficultyData =
+      JSON.parse(localStorage.getItem(selectedDifficulty)) || [];
+
+    let existingUserIndex = difficultyData.findIndex(
+      (entry) => entry.user === users[0]
+    );
+    if (existingUserIndex !== -1) {
+      // User already exists, check if the new time is lower
+      if (times[0] < difficultyData[existingUserIndex].time) {
+        // Update the time for the existing user
+        difficultyData[existingUserIndex].time = times[0];
+      }
+      // If the new time is not lower, do nothing
+    } else {
+      // User does not exist, add the new user-time pair
+      difficultyData.push(userTimePair);
+    }
+
+    localStorage.setItem(selectedDifficulty, JSON.stringify(difficultyData));
+
+    if (playAgain) {
+      easy.disabled = true;
+      medium.disabled = true;
+      hard.disabled = true;
+      expert.disabled = true;
+      stopTimer();
+      console.log(`${timerStarted}`);
+      document.querySelector("#timer").innerHTML = "Your time: ";
+      document.getElementById("timer").innerText += timerValue;
+    } else {
+      console.log(
+        "Game Over! All pairs matched, but the user chose not to play again."
+      );
+    }
+  }
+
   divTable.innerHTML = "";
   divTable.appendChild(table);
 }
@@ -102,29 +152,6 @@ function stopTimer() {
   clearInterval(timerId);
   timerValue = 0;
   timerStarted = false;
-}
-
-function checkGameCompletion() {
-  const time = timerValue;
-  divTable.innerHTML = "";
-  const playAgain = window.confirm(
-    `You won! Your time: ${time} seconds! Do you want to have a new try?`
-  );
-
-  if (playAgain) {
-    beginner.disabled = true;
-    intermediate.disabled = true;
-    professional.disabled = true;
-    expert.disabled = true;
-    stopTimer();
-    console.log(`${timerStarted}`);
-    document.querySelector("#timer").innerHTML = "Your time: ";
-    document.getElementById("timer").innerText += timerValue;
-  } else {
-    console.log(
-      "Game Over! All pairs matched, but the user chose not to play again."
-    );
-  }
 }
 
 export { picMaker, updateTimer, startTimer, stopTimer };

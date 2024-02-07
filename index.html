@@ -13,17 +13,14 @@
         type="radio"
         checked="true"
         name="level"
-        id="beginner"
-        value="beginner"
-      /><span>Begginer</span>
-      <input
-        type="radio"
-        name="level"
-        id="intermediate"
-        value="intermediate"
-      /><span>Intermediate</span>
-      <input type="radio" name="level" id="professional" value="professional" />
-      <span>Professional</span>
+        id="easy"
+        value="easy"
+      /><span>Easy</span>
+      <input type="radio" name="level" id="medium" value="medium" /><span
+        >Medium</span
+      >
+      <input type="radio" name="level" id="hard" value="hard" />
+      <span>Hard</span>
       <input type="radio" name="level" id="expert" value="expert" />
       <span>Expert</span>
     </div>
@@ -33,6 +30,12 @@
       <div id="table"></div>
     </div>
     <div id="results"></div>
+    <div id="btn">
+      <input type="button" value="Easy" />
+      <input type="button" value="Medium" />
+      <input type="button" value="Hard" />
+      <input type="button" value="Expert" />
+    </div>
 
     <script src="main.js" type="module"></script>
     <script src="functions.js" type="module"></script>

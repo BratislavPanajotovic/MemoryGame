@@ -54,12 +54,15 @@ let src = [
   "icons/gdrive.png",
 ];
 
-let beginner = document.querySelector("#beginner");
-let intermediate = document.querySelector("#intermediate");
-let professional = document.querySelector("#professional");
+let easy = document.querySelector("#easy");
+let medium = document.querySelector("#medium");
+let hard = document.querySelector("#hard");
 let expert = document.querySelector("#expert");
 
 let divTable = document.querySelector("#table");
+let divResults = document.querySelector("#results");
+let divBtns = document.querySelector("#btn");
+
 let username = document.querySelector("#user");
 
 let memoryGame = document.querySelector("#memoryGame");
@@ -68,9 +71,9 @@ let timerStarted = false;
 
 showTimer.innerHTML = "";
 memoryGame.innerHTML = "";
-beginner.disabled = true;
-intermediate.disabled = true;
-professional.disabled = true;
+easy.disabled = true;
+medium.disabled = true;
+hard.disabled = true;
 expert.disabled = true;
 
 username.addEventListener("keyup", function (event) {
@@ -82,9 +85,9 @@ username.addEventListener("keyup", function (event) {
       alert("Please enter a valid username!");
     } else {
       memoryGame.innerHTML = "Memory Game!";
-      beginner.disabled = false;
-      intermediate.disabled = false;
-      professional.disabled = false;
+      easy.disabled = false;
+      medium.disabled = false;
+      hard.disabled = false;
       expert.disabled = false;
       event.preventDefault();
       username.placeholder = currentUsername;
@@ -93,32 +96,32 @@ username.addEventListener("keyup", function (event) {
   }
 });
 
-let selectedDifficulty = "beginner";
+let selectedDifficulty = "Easy";
 
-beginner.addEventListener("click", () => {
-  selectedDifficulty = "beginner";
-  picMaker(src, 4, 4);
+easy.addEventListener("click", () => {
+  selectedDifficulty = "Easy";
+  picMaker(src, 4, 4, selectedDifficulty);
 });
 
-intermediate.addEventListener("click", () => {
-  selectedDifficulty = "intermediate";
-  picMaker(src, 6, 6);
+medium.addEventListener("click", () => {
+  selectedDifficulty = "Medium";
+  picMaker(src, 6, 6, selectedDifficulty);
 });
 
-professional.addEventListener("click", () => {
-  selectedDifficulty = "professional";
-  picMaker(src, 8, 8);
+hard.addEventListener("click", () => {
+  selectedDifficulty = "Hard";
+  picMaker(src, 8, 8, selectedDifficulty);
 });
 
 expert.addEventListener("click", () => {
-  selectedDifficulty = "expert";
-  picMaker(src, 10, 10);
+  selectedDifficulty = "Expert";
+  picMaker(src, 10, 10, selectedDifficulty);
 });
 
 const clickEventHandler = () => {
-  beginner.disabled = true;
-  intermediate.disabled = true;
-  professional.disabled = true;
+  easy.disabled = true;
+  medium.disabled = true;
+  hard.disabled = true;
   expert.disabled = true;
   console.log(`klik`);
   console.log(timerStarted);
@@ -130,3 +133,65 @@ const clickEventHandler = () => {
 };
 
 divTable.addEventListener("click", clickEventHandler);
+
+function generateTable(selectedDifficulty) {
+  let tableData = JSON.parse(localStorage.getItem(selectedDifficulty)) || [];
+
+  console.log(tableData);
+
+  if (tableData.length < 5) {
+    tableData = Array.from({ length: 5 }, (_, index) => ({
+      user: "",
+      time: "",
+      position: index + 1,
+    }));
+  }
+  console.log(tableData);
+
+  tableData.sort((a, b) => a.time - b.time);
+
+  let table = document.createElement("table");
+  let thead = document.createElement("thead");
+  let headerRow = document.createElement("tr");
+  let positionHeader = document.createElement("th");
+  positionHeader.textContent = "Position";
+  let usernameHeader = document.createElement("th");
+  usernameHeader.textContent = "Username";
+  let timeHeader = document.createElement("th");
+  timeHeader.textContent = "Time";
+
+  headerRow.appendChild(positionHeader);
+  headerRow.appendChild(usernameHeader);
+  headerRow.appendChild(timeHeader);
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  let tbody = document.createElement("tbody");
+
+  tableData.forEach((entry) => {
+    let row = document.createElement("tr");
+    let positionCell = document.createElement("td");
+    positionCell.textContent = entry.position;
+    let usernameCell = document.createElement("td");
+    usernameCell.textContent = entry.user;
+    let timeCell = document.createElement("td");
+    timeCell.textContent = entry.time;
+
+    row.appendChild(positionCell);
+    row.appendChild(usernameCell);
+    row.appendChild(timeCell);
+    tbody.appendChild(row);
+  });
+
+  divResults.innerHTML = "";
+  divResults.appendChild(table);
+}
+
+divBtns.addEventListener("click", function (event) {
+  if (event.target.tagName === "INPUT") {
+    let selectedDifficulty = event.target.value;
+    generateTable(selectedDifficulty);
+  }
+});
+
+generateTable("Easy");
