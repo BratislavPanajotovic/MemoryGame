@@ -129,10 +129,11 @@ const clickEventHandler = () => {
   intermediate.disabled = true;
   professional.disabled = true;
   expert.disabled = true;
-
+  console.log(`adsfasd`);
   if (!timerStarted) {
     startTimer();
     timerStarted = true;
+    console.log(`Usao je. `);
   }
 };
 

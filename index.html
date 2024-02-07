@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memory Game</title>
-    <link rel="stylesheet" href="style.css">
-</head> 
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="input">
+      <input type="text" name="username" id="user" />
+      <input
+        type="radio"
+        checked="true"
+        name="level"
+        id="beginner"
+        value="beginner"
+      /><span>Begginer</span>
+      <input
+        type="radio"
+        name="level"
+        id="intermediate"
+        value="intermediate"
+      /><span>Intermediate</span>
+      <input type="radio" name="level" id="professional" value="professional" />
+      <span>Professional</span>
+      <input type="radio" name="level" id="expert" value="expert" />
+      <span>Expert</span>
+    </div>
+    <h1 id="memoryGame"><h1 id="timer"></h1></h1>
 
-        <div class="input">
-            <input type="text" name="username" id="user" >
-            <input type="radio" checked="true" name="level" id="beginner"  value="beginner"><span>Begginer</span>
-            <input type="radio" name="level" id="intermediate" value="intermediate" ><span>Intermediate</span>
-            <input type="radio" name="level" id="professional" value="professional"> <span>Professional</span>
-            <input type="radio" name="level" id="expert" value="expert"> <span>Expert</span>
-        </div>
-        <h1 id="memoryGame"><h1 id="timer"></h1></h1>
-        
-        <div class="img-container">
-
-            <table id="table"> 
-            </table>
-            
-        </div>
-        <div id="results">
-            </div>
+    <div class="img-container">
+      <div id="table"></div>
+    </div>
+    <div id="results"></div>
 
     <script src="main.js" type="module"></script>
     <script src="functions.js" type="module"></script>
-    
-</body>
+  </body>
 </html>

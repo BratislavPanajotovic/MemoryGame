@@ -72,7 +72,7 @@ function picMaker(src, rows, cols) {
         flippedCards = [];
 
         if (matchingCount === count / 2) {
-          checkGameCompletion();
+          setTimeout(checkGameCompletion, 2000);
         }
       } else if (flippedCards.length === 2) {
         setTimeout(removeSrc, 2000);
@@ -142,6 +142,7 @@ function checkGameCompletion() {
     divTable.innerHTML = "";
     stopTimer();
     timerValue = 0;
+    console.log(`${timerStarted}`);
     document.querySelector("#timer").innerHTML = "Your time: 0";
   } else {
     console.log(
