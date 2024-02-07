@@ -123,6 +123,7 @@ function startTimer() {
 function stopTimer() {
   clearInterval(timerId);
   timerValue = 0;
+  timerStarted = false;
 }
 
 function checkGameCompletion() {

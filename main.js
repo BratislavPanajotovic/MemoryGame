@@ -75,6 +75,7 @@ let username = document.querySelector("#user");
 
 let memoryGame = document.querySelector("#memoryGame");
 let showTimer = document.querySelector("#timer");
+let timerStarted = false;
 
 showTimer.innerHTML = "";
 memoryGame.innerHTML = "";
@@ -86,6 +87,8 @@ expert.disabled = true;
 username.addEventListener("keyup", function (event) {
   if (event.keyCode === 13) {
     let currentUsername = username.value.trim();
+    stopTimer();
+    timerStarted = false;
     if (currentUsername === "" || currentUsername.length <= 3) {
       alert("Please enter a valid username!");
     } else {
@@ -122,8 +125,6 @@ expert.addEventListener("click", () => {
   selectedDifficulty = "expert";
   picMaker(src, 10, 10);
 });
-
-let timerStarted = false;
 
 const clickEventHandler = () => {
   beginner.disabled = true;
