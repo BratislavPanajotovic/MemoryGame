@@ -1,13 +1,4 @@
-import {
-  getRandomCards,
-  shuffleArray,
-  picMaker,
-  updateTimer,
-  startTimer,
-  stopTimer,
-  getRowsColsFromDifficulty,
-  // removeClickListener,
-} from "./functions.js";
+import { picMaker, updateTimer, startTimer, stopTimer } from "./functions.js";
 
 let src = [
   "icons/ai.png",
@@ -62,8 +53,6 @@ let src = [
   "icons/yt.png",
   "icons/gdrive.png",
 ];
-
-let timerValue = 0;
 
 let beginner = document.querySelector("#beginner");
 let intermediate = document.querySelector("#intermediate");

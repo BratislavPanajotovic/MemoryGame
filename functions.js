@@ -1,13 +1,5 @@
 let divTable = document.getElementById("table");
-let clickEventHandler;
-let selectedDifficulty;
-let currentUsername;
 let timerStarted;
-let matchingCount = 0;
-
-// function removeClickListener() {
-//   divTable.removeEventListener("click", clickEventHandler);
-// }
 
 function getRandomCards(src, count) {
   let uniquePics = Array.from(new Set(src));
@@ -22,20 +14,6 @@ function shuffleArray(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
-}
-function getRowsColsFromDifficulty(difficulty) {
-  switch (difficulty) {
-    case "beginner":
-      return 4;
-    case "intermediate":
-      return 6;
-    case "professional":
-      return 8;
-    case "expert":
-      return 10;
-    default:
-      return 4; // Default to beginner if difficulty is not recognized
-  }
 }
 
 function picMaker(src, rows, cols) {
@@ -72,7 +50,7 @@ function picMaker(src, rows, cols) {
         flippedCards = [];
 
         if (matchingCount === count / 2) {
-          setTimeout(checkGameCompletion, 2000);
+          checkGameCompletion();
         }
       } else if (flippedCards.length === 2) {
         setTimeout(removeSrc, 2000);
@@ -138,8 +116,6 @@ function checkGameCompletion() {
     intermediate.disabled = true;
     professional.disabled = true;
     expert.disabled = true;
-    // timerStarted = false;
-    // removeClickListener();
     stopTimer();
     console.log(`${timerStarted}`);
     document.querySelector("#timer").innerHTML = "Your time: ";
@@ -151,13 +127,4 @@ function checkGameCompletion() {
   }
 }
 
-export {
-  getRandomCards,
-  shuffleArray,
-  picMaker,
-  updateTimer,
-  startTimer,
-  stopTimer,
-  // removeClickListener,
-  getRowsColsFromDifficulty,
-};
+export { picMaker, updateTimer, startTimer, stopTimer };
