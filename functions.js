@@ -5,9 +5,9 @@ let currentUsername;
 let timerStarted;
 let matchingCount = 0;
 
-function removeClickListener() {
-  divTable.removeEventListener("click", clickEventHandler);
-}
+// function removeClickListener() {
+//   divTable.removeEventListener("click", clickEventHandler);
+// }
 
 function getRandomCards(src, count) {
   let uniquePics = Array.from(new Set(src));
@@ -120,7 +120,6 @@ function startTimer() {
   console.log("Timer started");
   timerId = setInterval(updateTimer, 1000);
 }
-
 function stopTimer() {
   clearInterval(timerId);
   timerValue = 0;
@@ -128,22 +127,22 @@ function stopTimer() {
 
 function checkGameCompletion() {
   const time = timerValue;
+  divTable.innerHTML = "";
   const playAgain = window.confirm(
     `You won! Your time: ${time} seconds! Do you want to have a new try?`
   );
 
   if (playAgain) {
-    beginner.disabled = false;
-    intermediate.disabled = false;
-    professional.disabled = false;
-    expert.disabled = false;
-    timerStarted = false;
-    removeClickListener();
-    divTable.innerHTML = "";
+    beginner.disabled = true;
+    intermediate.disabled = true;
+    professional.disabled = true;
+    expert.disabled = true;
+    // timerStarted = false;
+    // removeClickListener();
     stopTimer();
-    timerValue = 0;
     console.log(`${timerStarted}`);
-    document.querySelector("#timer").innerHTML = "Your time: 0";
+    document.querySelector("#timer").innerHTML = "Your time: ";
+    document.getElementById("timer").innerText += timerValue;
   } else {
     console.log(
       "Game Over! All pairs matched, but the user chose not to play again."
@@ -158,6 +157,6 @@ export {
   updateTimer,
   startTimer,
   stopTimer,
-  removeClickListener,
+  // removeClickListener,
   getRowsColsFromDifficulty,
 };

@@ -6,7 +6,7 @@ import {
   startTimer,
   stopTimer,
   getRowsColsFromDifficulty,
-  removeClickListener,
+  // removeClickListener,
 } from "./functions.js";
 
 let src = [
@@ -102,6 +102,7 @@ username.addEventListener("keyup", function (event) {
 });
 
 let selectedDifficulty = "beginner";
+
 beginner.addEventListener("click", () => {
   selectedDifficulty = "beginner";
   picMaker(src, 4, 4);
@@ -129,7 +130,8 @@ const clickEventHandler = () => {
   intermediate.disabled = true;
   professional.disabled = true;
   expert.disabled = true;
-  console.log(`adsfasd`);
+  console.log(`klik`);
+  console.log(timerStarted);
   if (!timerStarted) {
     startTimer();
     timerStarted = true;
