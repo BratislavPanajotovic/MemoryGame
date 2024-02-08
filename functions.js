@@ -23,6 +23,7 @@ function picMaker(src, rows, cols, selectedDifficulty) {
   shuffleArray(randomCards);
 
   let table = document.createElement("table");
+  table.id = "imgTable";
   let flippedCards = [];
   let matchingCount = 0;
 
@@ -102,14 +103,10 @@ function picMaker(src, rows, cols, selectedDifficulty) {
       (entry) => entry.user === users[0]
     );
     if (existingUserIndex !== -1) {
-      // User already exists, check if the new time is lower
       if (times[0] < difficultyData[existingUserIndex].time) {
-        // Update the time for the existing user
         difficultyData[existingUserIndex].time = times[0];
       }
-      // If the new time is not lower, do nothing
     } else {
-      // User does not exist, add the new user-time pair
       difficultyData.push(userTimePair);
     }
 
@@ -154,4 +151,33 @@ function stopTimer() {
   timerStarted = false;
 }
 
-export { picMaker, updateTimer, startTimer, stopTimer };
+function showLeaderboard(selectedDifficulty) {
+  let leaderboardData =
+    JSON.parse(localStorage.getItem(selectedDifficulty)) || [];
+
+  leaderboardData.sort((a, b) => a.time - b.time);
+
+  let top5Users = leaderboardData.slice(0, 5);
+
+  updateTable(top5Users);
+}
+
+function updateTable(leaderboardData) {
+  let table = document.querySelector("#results table");
+
+  table.innerHTML =
+    "<tr><th>Position:</th><th>Username:</th><th>Time:</th></tr>";
+
+  leaderboardData.forEach((entry, index) => {
+    let row = table.insertRow(-1);
+    let positionCell = row.insertCell(0);
+    let usernameCell = row.insertCell(1);
+    let timeCell = row.insertCell(2);
+
+    positionCell.textContent = index + 1;
+    usernameCell.textContent = entry.user;
+    timeCell.textContent = entry.time + " seconds";
+  });
+}
+
+export { picMaker, updateTimer, startTimer, stopTimer, showLeaderboard };

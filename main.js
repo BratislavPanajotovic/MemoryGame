@@ -1,4 +1,10 @@
-import { picMaker, updateTimer, startTimer, stopTimer } from "./functions.js";
+import {
+  picMaker,
+  updateTimer,
+  startTimer,
+  stopTimer,
+  showLeaderboard,
+} from "./functions.js";
 
 let src = [
   "icons/ai.png",
@@ -59,18 +65,23 @@ let medium = document.querySelector("#medium");
 let hard = document.querySelector("#hard");
 let expert = document.querySelector("#expert");
 
+let resultsEasy = document.getElementById("Easy");
+
+let resultsMedium = document.getElementById("Medium");
+
+let resultsHard = document.getElementById("Hard");
+
+let resultsExpert = document.getElementById("Expert");
+
 let divTable = document.querySelector("#table");
-let divResults = document.querySelector("#results");
-let divBtns = document.querySelector("#btn");
 
 let username = document.querySelector("#user");
 
 let memoryGame = document.querySelector("#memoryGame");
-let showTimer = document.querySelector("#timer");
 let timerStarted = false;
 
-showTimer.innerHTML = "";
-memoryGame.innerHTML = "";
+// showTimer.innerHTML = "";
+// memoryGame.innerHTML = "";
 easy.disabled = true;
 medium.disabled = true;
 hard.disabled = true;
@@ -117,6 +128,21 @@ expert.addEventListener("click", () => {
   selectedDifficulty = "Expert";
   picMaker(src, 10, 10, selectedDifficulty);
 });
+resultsEasy.addEventListener("click", () => {
+  showLeaderboard("Easy");
+});
+
+resultsMedium.addEventListener("click", () => {
+  showLeaderboard("Medium");
+});
+
+resultsHard.addEventListener("click", () => {
+  showLeaderboard("Hard");
+});
+
+resultsExpert.addEventListener("click", () => {
+  showLeaderboard("Expert");
+});
 
 const clickEventHandler = () => {
   easy.disabled = true;
@@ -133,65 +159,3 @@ const clickEventHandler = () => {
 };
 
 divTable.addEventListener("click", clickEventHandler);
-
-function generateTable(selectedDifficulty) {
-  let tableData = JSON.parse(localStorage.getItem(selectedDifficulty)) || [];
-
-  console.log(tableData);
-
-  if (tableData.length < 5) {
-    tableData = Array.from({ length: 5 }, (_, index) => ({
-      user: "",
-      time: "",
-      position: index + 1,
-    }));
-  }
-  console.log(tableData);
-
-  tableData.sort((a, b) => a.time - b.time);
-
-  let table = document.createElement("table");
-  let thead = document.createElement("thead");
-  let headerRow = document.createElement("tr");
-  let positionHeader = document.createElement("th");
-  positionHeader.textContent = "Position";
-  let usernameHeader = document.createElement("th");
-  usernameHeader.textContent = "Username";
-  let timeHeader = document.createElement("th");
-  timeHeader.textContent = "Time";
-
-  headerRow.appendChild(positionHeader);
-  headerRow.appendChild(usernameHeader);
-  headerRow.appendChild(timeHeader);
-  thead.appendChild(headerRow);
-  table.appendChild(thead);
-
-  let tbody = document.createElement("tbody");
-
-  tableData.forEach((entry) => {
-    let row = document.createElement("tr");
-    let positionCell = document.createElement("td");
-    positionCell.textContent = entry.position;
-    let usernameCell = document.createElement("td");
-    usernameCell.textContent = entry.user;
-    let timeCell = document.createElement("td");
-    timeCell.textContent = entry.time;
-
-    row.appendChild(positionCell);
-    row.appendChild(usernameCell);
-    row.appendChild(timeCell);
-    tbody.appendChild(row);
-  });
-
-  divResults.innerHTML = "";
-  divResults.appendChild(table);
-}
-
-divBtns.addEventListener("click", function (event) {
-  if (event.target.tagName === "INPUT") {
-    let selectedDifficulty = event.target.value;
-    generateTable(selectedDifficulty);
-  }
-});
-
-generateTable("Easy");
