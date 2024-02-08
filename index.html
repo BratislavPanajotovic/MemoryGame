@@ -1,33 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memory Game</title>
-    <link rel="stylesheet" href="style.css">
-</head> 
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1 id="memoryGame">
+      Memory Game! Enter your username :) Then confirm it with Enter and then
+      choose difficulty :) After that you start the game by clicking on card,
+      and timer starts. Good luck 🍀
+    </h1>
+    <div class="input">
+      <input type="text" name="username" id="user" />
+      <input
+        type="radio"
+        checked="true"
+        name="level"
+        id="easy"
+        value="easy"
+      /><span>Easy</span>
+      <input type="radio" name="level" id="medium" value="medium" /><span
+        >Medium</span
+      >
+      <input type="radio" name="level" id="hard" value="hard" />
+      <span>Hard</span>
+      <input type="radio" name="level" id="expert" value="expert" />
+      <span>Expert</span>
+    </div>
+    <h1 id="timer">Your time:</h1>
 
-        <div class="input">
-            <input type="text" name="username" id="user" >
-            <input type="radio" checked="true" name="level" id="beginner"  value="beginner"><span>Begginer</span>
-            <input type="radio" name="level" id="intermediate" value="intermediate" ><span>Intermediate</span>
-            <input type="radio" name="level" id="professional" value="professional"> <span>Professional</span>
-            <input type="radio" name="level" id="expert" value="expert"> <span>Expert</span>
-        </div>
-        <h1 id="memoryGame"><h1 id="timer"></h1></h1>
-        
-        <div class="img-container">
-
-            <table id="table"> 
-            </table>
-            
-        </div>
-        <div id="results">
-            </div>
+    <div class="img-container">
+      <div id="table"></div>
+    </div>
+    <div id="results">
+      <table id="resultsTable">
+        <tr>
+          <th>Position:</th>
+          <th>Username:</th>
+          <th>Time:</th>
+        </tr>
+        <tr>
+          <td id="pos1">1.</td>
+          <td id="user1"></td>
+          <td id="time1"></td>
+        </tr>
+        <tr>
+          <td id="pos2">2.</td>
+          <td id="user2"></td>
+          <td id="time2"></td>
+        </tr>
+        <tr>
+          <td id="pos3">3.</td>
+          <td id="user3"></td>
+          <td id="time3"></td>
+        </tr>
+        <tr>
+          <td id="pos4">4.</td>
+          <td id="user4"></td>
+          <td id="time4"></td>
+        </tr>
+        <tr>
+          <td id="pos5">5.</td>
+          <td id="user5"></td>
+          <td id="time5"></td>
+        </tr>
+      </table>
+    </div>
+    <div id="btn">
+      <input type="button" value="Easy" id="Easy" />
+      <input type="button" value="Medium" id="Medium" />
+      <input type="button" value="Hard" id="Hard" />
+      <input type="button" value="Expert" id="Expert" />
+    </div>
 
     <script src="main.js" type="module"></script>
     <script src="functions.js" type="module"></script>
-    
-</body>
+  </body>
 </html>

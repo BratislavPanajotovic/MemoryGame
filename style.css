@@ -1,12 +1,26 @@
 .icon {
-    height: 75px;
-    width: 75px;
+  height: 75px;
+  width: 75px;
 }
-.img-container img{
-width: 55%;
-object-fit: contain;
+.img-container img {
+  width: 55%;
+  object-fit: contain;
 }
-td {
-width:85px;
-height: 85px;
+
+table {
+  border-collapse: collapse;
+  width: 35%;
+}
+
+#imgTable td {
+  height: 85px;
+  width: 85px;
+}
+
+#resultsTable td,
+th {
+  border: 1px solid black;
+  text-align: center;
+  padding: 8px;
+  width: 85px;
 }

@@ -1,12 +1,9 @@
 import {
-  getRandomCards,
-  shuffleArray,
   picMaker,
   updateTimer,
   startTimer,
   stopTimer,
-  getRowsColsFromDifficulty,
-  removeClickListener,
+  showLeaderboard,
 } from "./functions.js";
 
 let src = [
@@ -63,36 +60,47 @@ let src = [
   "icons/gdrive.png",
 ];
 
-let timerStarted = false;
+let timerValue = 0;
 
 let beginner = document.querySelector("#beginner");
 let intermediate = document.querySelector("#intermediate");
 let professional = document.querySelector("#professional");
 let expert = document.querySelector("#expert");
 
+let resultsEasy = document.getElementById("Easy");
+
+let resultsMedium = document.getElementById("Medium");
+
+let resultsHard = document.getElementById("Hard");
+
+let resultsExpert = document.getElementById("Expert");
+
 let divTable = document.querySelector("#table");
+
 let username = document.querySelector("#user");
 
 let memoryGame = document.querySelector("#memoryGame");
-let showTimer = document.querySelector("#timer");
+// let timerStarted = false;
 
-showTimer.innerHTML = "";
-memoryGame.innerHTML = "";
-beginner.disabled = true;
-intermediate.disabled = true;
-professional.disabled = true;
+// showTimer.innerHTML = "";
+// memoryGame.innerHTML = "";
+easy.disabled = true;
+medium.disabled = true;
+hard.disabled = true;
 expert.disabled = true;
 
 username.addEventListener("keyup", function (event) {
   if (event.keyCode === 13) {
     let currentUsername = username.value.trim();
+    stopTimer();
+    timerStarted = false;
     if (currentUsername === "" || currentUsername.length <= 3) {
       alert("Please enter a valid username!");
     } else {
       memoryGame.innerHTML = "Memory Game!";
-      beginner.disabled = false;
-      intermediate.disabled = false;
-      professional.disabled = false;
+      easy.disabled = false;
+      medium.disabled = false;
+      hard.disabled = false;
       expert.disabled = false;
       event.preventDefault();
       username.placeholder = currentUsername;
@@ -101,40 +109,45 @@ username.addEventListener("keyup", function (event) {
   }
 });
 
-let selectedDifficulty = "beginner";
-beginner.addEventListener("click", () => {
-  selectedDifficulty = "beginner";
-  picMaker(src, 4, 4);
+let selectedDifficulty = "Easy";
+
+easy.addEventListener("click", () => {
+  selectedDifficulty = "Easy";
+  picMaker(src, 4, 4, selectedDifficulty);
 });
 
-intermediate.addEventListener("click", () => {
-  selectedDifficulty = "intermediate";
-  picMaker(src, 6, 6);
+medium.addEventListener("click", () => {
+  selectedDifficulty = "Medium";
+  picMaker(src, 6, 6, selectedDifficulty);
 });
 
-professional.addEventListener("click", () => {
-  selectedDifficulty = "professional";
-  picMaker(src, 8, 8);
+hard.addEventListener("click", () => {
+  selectedDifficulty = "Hard";
+  picMaker(src, 8, 8, selectedDifficulty);
 });
 
 expert.addEventListener("click", () => {
-  selectedDifficulty = "expert";
-  picMaker(src, 10, 10);
+  selectedDifficulty = "Expert";
+  picMaker(src, 10, 10, selectedDifficulty);
+});
+resultsEasy.addEventListener("click", () => {
+  showLeaderboard("Easy");
 });
 
-const clickEventHandler = () => {
-  console.log("Entering clickEventHandler");
-  console.log("timerStarted before click:", timerStarted);
+let timerStarted = false;
 
+const clickEventHandler = () => {
   beginner.disabled = true;
   intermediate.disabled = true;
   professional.disabled = true;
   expert.disabled = true;
-
+  console.log(`klik`);
+  console.log(timerStarted);
   if (!timerStarted) {
     console.log("Starting timer...");
     startTimer();
     timerStarted = true;
+    console.log(`Usao je. `);
   }
 
   console.log("Exiting clickEventHandler");
