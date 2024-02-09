@@ -1,5 +1,8 @@
-let divTable = document.getElementById("table");
 let timerStarted;
+let timerValue = 0;
+let timerId;
+
+let divTable = document.getElementById("table");
 
 function getRandomCards(src, count) {
   let uniquePics = Array.from(new Set(src));
@@ -33,6 +36,7 @@ function picMaker(src, rows, cols, selectedDifficulty) {
     });
     flippedCards = [];
   }
+  saveImgTableData({ randomCards, shuffledSrc });
 
   function handleClick() {
     let currentRow = parseInt(this.getAttribute("data-row"));
@@ -63,7 +67,7 @@ function picMaker(src, rows, cols, selectedDifficulty) {
     let row = document.createElement("tr");
 
     for (let j = 0; j < cols; j++) {
-      let cell = document.createElement("td");
+      var cell = document.createElement("td");
       cell.setAttribute("class", "card");
       cell.setAttribute("data-row", i);
       cell.setAttribute("data-col", j);
@@ -111,6 +115,7 @@ function picMaker(src, rows, cols, selectedDifficulty) {
     }
 
     localStorage.setItem(selectedDifficulty, JSON.stringify(difficultyData));
+    saveTableData(selectedDifficulty, difficultyData);
 
     if (playAgain) {
       easy.disabled = true;
@@ -131,10 +136,6 @@ function picMaker(src, rows, cols, selectedDifficulty) {
   divTable.innerHTML = "";
   divTable.appendChild(table);
 }
-
-let timerValue = 0;
-let timerId;
-
 function updateTimer() {
   timerValue++;
   document.getElementById("timer").innerText = "Your time: ";
@@ -162,8 +163,13 @@ function showLeaderboard(selectedDifficulty) {
   updateTable(top5Users);
 }
 
-function updateTable(leaderboardData) {
+function updateTable(leaderboardData, selectedDifficulty) {
   let table = document.querySelector("#results table");
+  const storedData = loadTableData(selectedDifficulty);
+
+  if (storedData.length > 0) {
+    leaderboardData = storedData;
+  }
 
   table.innerHTML =
     "<tr><th>Position:</th><th>Username:</th><th>Time:</th></tr>";
@@ -179,5 +185,22 @@ function updateTable(leaderboardData) {
     timeCell.textContent = entry.time + " seconds";
   });
 }
+function saveTableData(tableId, data) {
+  localStorage.setItem(tableId, JSON.stringify(data));
+}
 
-export { picMaker, startTimer, stopTimer, showLeaderboard };
+function loadTableData(tableId) {
+  const storedData = localStorage.getItem(tableId);
+  return storedData ? JSON.parse(storedData) : [];
+}
+
+function saveImgTableData(data) {
+  localStorage.setItem("imgTableData", JSON.stringify(data));
+}
+
+function loadImgTableData() {
+  const storedData = localStorage.getItem("imgTableData");
+  return storedData ? JSON.parse(storedData) : [];
+}
+
+export { picMaker, startTimer, stopTimer, showLeaderboard, loadImgTableData };

@@ -78,14 +78,33 @@ let username = document.querySelector("#user");
 
 let memoryGame = document.querySelector("#memoryGame");
 
+let selectedDifficulty = "Easy";
 let timerStarted = false;
 easy.disabled = true;
 medium.disabled = true;
 hard.disabled = true;
 expert.disabled = true;
-divResultsTable.innerHTML = "";
+// divResultsTable.innerHTML = "";
 hTimer.innerHTML = "";
-divBtns.classList.add("hidden");
+// divBtns.classList.add("hidden");
+
+const clickEventHandler = () => {
+  easy.disabled = true;
+  medium.disabled = true;
+  hard.disabled = true;
+  expert.disabled = true;
+  console.log(`klik`);
+  console.log(timerStarted);
+  if (!timerStarted) {
+    startTimer();
+    timerStarted = true;
+    console.log(`Usao je. `);
+  }
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+  showLeaderboard(selectedDifficulty);
+});
 
 username.addEventListener("keyup", function (event) {
   if (event.keyCode === 13) {
@@ -94,11 +113,32 @@ username.addEventListener("keyup", function (event) {
     timerStarted = false;
     hTimer.innerHTML = "Your time:";
     divBtns.classList.remove("hidden");
+    divTable.addEventListener("click", clickEventHandler);
 
     if (easy.checked) {
       selectedDifficulty = "Easy";
       picMaker(src, 4, 4, selectedDifficulty);
     }
+
+    easy.addEventListener("click", () => {
+      selectedDifficulty = "Easy";
+      picMaker(src, 4, 4, selectedDifficulty);
+    });
+
+    medium.addEventListener("click", () => {
+      selectedDifficulty = "Medium";
+      picMaker(src, 6, 6, selectedDifficulty);
+    });
+
+    hard.addEventListener("click", () => {
+      selectedDifficulty = "Hard";
+      picMaker(src, 8, 8, selectedDifficulty);
+    });
+
+    expert.addEventListener("click", () => {
+      selectedDifficulty = "Expert";
+      picMaker(src, 10, 10, selectedDifficulty);
+    });
 
     if (currentUsername === "" || currentUsername.length <= 3) {
       alert("Please enter a valid username!");
@@ -117,27 +157,6 @@ username.addEventListener("keyup", function (event) {
   }
 });
 
-let selectedDifficulty = "Easy";
-
-easy.addEventListener("click", () => {
-  selectedDifficulty = "Easy";
-  picMaker(src, 4, 4, selectedDifficulty);
-});
-
-medium.addEventListener("click", () => {
-  selectedDifficulty = "Medium";
-  picMaker(src, 6, 6, selectedDifficulty);
-});
-
-hard.addEventListener("click", () => {
-  selectedDifficulty = "Hard";
-  picMaker(src, 8, 8, selectedDifficulty);
-});
-
-expert.addEventListener("click", () => {
-  selectedDifficulty = "Expert";
-  picMaker(src, 10, 10, selectedDifficulty);
-});
 resultsEasy.addEventListener("click", () => {
   showLeaderboard("Easy");
 });
@@ -153,19 +172,3 @@ resultsHard.addEventListener("click", () => {
 resultsExpert.addEventListener("click", () => {
   showLeaderboard("Expert");
 });
-
-const clickEventHandler = () => {
-  easy.disabled = true;
-  medium.disabled = true;
-  hard.disabled = true;
-  expert.disabled = true;
-  console.log(`klik`);
-  console.log(timerStarted);
-  if (!timerStarted) {
-    startTimer();
-    timerStarted = true;
-    console.log(`Usao je. `);
-  }
-};
-
-divTable.addEventListener("click", clickEventHandler);
