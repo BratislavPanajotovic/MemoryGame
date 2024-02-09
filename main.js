@@ -1,6 +1,5 @@
 import {
   picMaker,
-  updateTimer,
   startTimer,
   stopTimer,
   showLeaderboard,
@@ -59,43 +58,52 @@ let src = [
   "icons/yt.png",
   "icons/gdrive.png",
 ];
+let divBtns = document.querySelector("#btn");
+let hTimer = document.querySelector("#timer");
 
-let timerValue = 0;
-
-let beginner = document.querySelector("#beginner");
-let intermediate = document.querySelector("#intermediate");
-let professional = document.querySelector("#professional");
+let easy = document.querySelector("#easy");
+let medium = document.querySelector("#medium");
+let hard = document.querySelector("#hard");
 let expert = document.querySelector("#expert");
 
 let resultsEasy = document.getElementById("Easy");
-
 let resultsMedium = document.getElementById("Medium");
-
 let resultsHard = document.getElementById("Hard");
-
 let resultsExpert = document.getElementById("Expert");
 
 let divTable = document.querySelector("#table");
+let divResultsTable = document.querySelector("#resultsTable");
 
 let username = document.querySelector("#user");
 
 let memoryGame = document.querySelector("#memoryGame");
-// let timerStarted = false;
 
-// showTimer.innerHTML = "";
-// memoryGame.innerHTML = "";
+let timerStarted = false;
 easy.disabled = true;
 medium.disabled = true;
 hard.disabled = true;
 expert.disabled = true;
+divResultsTable.innerHTML = "";
+hTimer.innerHTML = "";
+divBtns.classList.add("hidden");
 
 username.addEventListener("keyup", function (event) {
   if (event.keyCode === 13) {
     let currentUsername = username.value.trim();
     stopTimer();
     timerStarted = false;
+    hTimer.innerHTML = "Your time:";
+    divBtns.classList.remove("hidden");
+
+    if (easy.checked) {
+      selectedDifficulty = "Easy";
+      picMaker(src, 4, 4, selectedDifficulty);
+    }
+
     if (currentUsername === "" || currentUsername.length <= 3) {
       alert("Please enter a valid username!");
+      divTable.innerHTML = "";
+      hTimer.innerHTML = "";
     } else {
       memoryGame.innerHTML = "Memory Game!";
       easy.disabled = false;
@@ -104,7 +112,7 @@ username.addEventListener("keyup", function (event) {
       expert.disabled = false;
       event.preventDefault();
       username.placeholder = currentUsername;
-      timerStarted = false;
+      stopTimer();
     }
   }
 });
@@ -134,25 +142,30 @@ resultsEasy.addEventListener("click", () => {
   showLeaderboard("Easy");
 });
 
-let timerStarted = false;
+resultsMedium.addEventListener("click", () => {
+  showLeaderboard("Medium");
+});
+
+resultsHard.addEventListener("click", () => {
+  showLeaderboard("Hard");
+});
+
+resultsExpert.addEventListener("click", () => {
+  showLeaderboard("Expert");
+});
 
 const clickEventHandler = () => {
-  beginner.disabled = true;
-  intermediate.disabled = true;
-  professional.disabled = true;
+  easy.disabled = true;
+  medium.disabled = true;
+  hard.disabled = true;
   expert.disabled = true;
   console.log(`klik`);
   console.log(timerStarted);
   if (!timerStarted) {
-    console.log("Starting timer...");
     startTimer();
     timerStarted = true;
     console.log(`Usao je. `);
   }
-
-  console.log("Exiting clickEventHandler");
-  console.log("timerStarted after click:", timerStarted);
 };
 
 divTable.addEventListener("click", clickEventHandler);
-export { clickEventHandler };

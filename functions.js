@@ -1,9 +1,4 @@
-import { clickEventHandler } from "./main.js";
-
 let divTable = document.getElementById("table");
-let clickEventHandler;
-let selectedDifficulty;
-let currentUsername;
 let timerStarted;
 
 function getRandomCards(src, count) {
@@ -56,7 +51,7 @@ function picMaker(src, rows, cols, selectedDifficulty) {
         flippedCards = [];
 
         if (matchingCount === count / 2) {
-          setTimeout(checkGameCompletion, 1000);
+          checkGameCompletion();
         }
       } else if (flippedCards.length === 2) {
         setTimeout(removeSrc, 2000);
@@ -156,28 +151,33 @@ function stopTimer() {
   timerStarted = false;
 }
 
-function checkGameCompletion() {
-  const time = timerValue;
-  const playAgain = window.confirm(
-    `You won! Your time: ${time} seconds! Do you want to have a new try?`
-  );
+function showLeaderboard(selectedDifficulty) {
+  let leaderboardData =
+    JSON.parse(localStorage.getItem(selectedDifficulty)) || [];
 
-  if (playAgain) {
-    beginner.disabled = false;
-    intermediate.disabled = false;
-    professional.disabled = false;
-    expert.disabled = false;
-    timerStarted = false;
-    removeClickListener();
-    divTable.innerHTML = "";
-    stopTimer();
-    timerValue = 0;
-    document.querySelector("#timer").innerHTML = "Your time: 0";
-  } else {
-    console.log(
-      "Game Over! All pairs matched, but the user chose not to play again."
-    );
-  }
+  leaderboardData.sort((a, b) => a.time - b.time);
+
+  let top5Users = leaderboardData.slice(0, 5);
+
+  updateTable(top5Users);
 }
 
-export { picMaker, updateTimer, startTimer, stopTimer, showLeaderboard };
+function updateTable(leaderboardData) {
+  let table = document.querySelector("#results table");
+
+  table.innerHTML =
+    "<tr><th>Position:</th><th>Username:</th><th>Time:</th></tr>";
+
+  leaderboardData.forEach((entry, index) => {
+    let row = table.insertRow(-1);
+    let positionCell = row.insertCell(0);
+    let usernameCell = row.insertCell(1);
+    let timeCell = row.insertCell(2);
+
+    positionCell.textContent = `${index + 1}`;
+    usernameCell.textContent = entry.user;
+    timeCell.textContent = entry.time + " seconds";
+  });
+}
+
+export { picMaker, startTimer, stopTimer, showLeaderboard };

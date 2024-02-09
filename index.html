@@ -7,11 +7,6 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1 id="memoryGame">
-      Memory Game! Enter your username :) Then confirm it with Enter and then
-      choose difficulty :) After that you start the game by clicking on card,
-      and timer starts. Good luck 🍀
-    </h1>
     <div class="input">
       <input type="text" name="username" id="user" />
       <input
@@ -29,50 +24,60 @@
       <input type="radio" name="level" id="expert" value="expert" />
       <span>Expert</span>
     </div>
-    <h1 id="timer">Your time:</h1>
 
-    <div class="img-container">
-      <div id="table"></div>
-    </div>
-    <div id="results">
-      <table id="resultsTable">
-        <tr>
-          <th>Position:</th>
-          <th>Username:</th>
-          <th>Time:</th>
-        </tr>
-        <tr>
-          <td id="pos1">1.</td>
-          <td id="user1"></td>
-          <td id="time1"></td>
-        </tr>
-        <tr>
-          <td id="pos2">2.</td>
-          <td id="user2"></td>
-          <td id="time2"></td>
-        </tr>
-        <tr>
-          <td id="pos3">3.</td>
-          <td id="user3"></td>
-          <td id="time3"></td>
-        </tr>
-        <tr>
-          <td id="pos4">4.</td>
-          <td id="user4"></td>
-          <td id="time4"></td>
-        </tr>
-        <tr>
-          <td id="pos5">5.</td>
-          <td id="user5"></td>
-          <td id="time5"></td>
-        </tr>
-      </table>
-    </div>
-    <div id="btn">
-      <input type="button" value="Easy" id="Easy" />
-      <input type="button" value="Medium" id="Medium" />
-      <input type="button" value="Hard" id="Hard" />
-      <input type="button" value="Expert" id="Expert" />
+    <h1 id="memoryGame">
+      Memory Game: Enter your username, confirm with Enter and choose
+      difficulty.<br />
+      After you click on a card the timer starts the game! Good luck! 🍀
+    </h1>
+
+    <h1 id="timer">Your time:</h1>
+    <div class="table-container">
+      <div class="img-container">
+        <div id="table"></div>
+      </div>
+      <div id="results">
+        <div id="btn">
+          <h3>Press difficulty button for updated result!</h3>
+          <input type="button" value="Easy" id="Easy" />
+          <input type="button" value="Medium" id="Medium" />
+          <input type="button" value="Hard" id="Hard" />
+          <input type="button" value="Expert" id="Expert" />
+        </div>
+
+        <table id="resultsTable">
+          <tr>
+            <th>Position:</th>
+            <th>Username:</th>
+            <th>Time:</th>
+          </tr>
+          <tr>
+            <td id="pos1">1.</td>
+            <td id="user1"></td>
+            <td id="time1"></td>
+          </tr>
+          <tr>
+            <td id="pos2">2.</td>
+            <td id="user2"></td>
+            <td id="time2"></td>
+          </tr>
+          <tr>
+            <td id="pos3">3.</td>
+            <td id="user3"></td>
+            <td id="time3"></td>
+          </tr>
+          <tr>
+            <td id="pos4">4.</td>
+            <td id="user4"></td>
+            <td id="time4"></td>
+          </tr>
+          <tr>
+            <td id="pos5">5.</td>
+            <td id="user5"></td>
+            <td id="time5"></td>
+          </tr>
+        </table>
+      </div>
     </div>
 
     <script src="main.js" type="module"></script>
