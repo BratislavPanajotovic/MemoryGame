@@ -127,9 +127,16 @@ function picMaker(src, rows, cols, selectedDifficulty) {
       document.querySelector("#timer").innerHTML = "Your time: ";
       document.getElementById("timer").innerText += timerValue;
     } else {
-      console.log(
-        "Game Over! All pairs matched, but the user chose not to play again."
+      alert(
+        `Game Over! All pairs matched, but ${username.value}chose not to play again.`
       );
+      stopTimer();
+      document.querySelector("#timer").innerHTML = "Your time: ";
+      document.getElementById("timer").innerText += timerValue;
+      easy.disabled = true;
+      medium.disabled = true;
+      hard.disabled = true;
+      expert.disabled = true;
     }
   }
 
