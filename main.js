@@ -72,7 +72,6 @@ let resultsHard = document.getElementById("Hard");
 let resultsExpert = document.getElementById("Expert");
 
 let divTable = document.querySelector("#table");
-let divResultsTable = document.querySelector("#resultsTable");
 
 let username = document.querySelector("#user");
 
@@ -84,9 +83,7 @@ easy.disabled = true;
 medium.disabled = true;
 hard.disabled = true;
 expert.disabled = true;
-// divResultsTable.innerHTML = "";
 hTimer.innerHTML = "";
-// divBtns.classList.add("hidden");
 
 const clickEventHandler = () => {
   easy.disabled = true;
