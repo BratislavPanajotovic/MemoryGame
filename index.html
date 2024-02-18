@@ -7,36 +7,40 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="input">
-      <input type="text" name="username" id="user" />
-      <h3>Choose difficulty:</h3>
-      <input
-        type="radio"
-        checked="true"
-        name="level"
-        id="easy"
-        value="easy"
-      /><span>Easy</span>
-      <input type="radio" name="level" id="medium" value="medium" /><span
-        >Medium</span
-      >
-      <input type="radio" name="level" id="hard" value="hard" />
-      <span>Hard</span>
-      <input type="radio" name="level" id="expert" value="expert" />
-      <span>Expert</span>
+    <div id="login" class="login">
+      <h2 class="login-header">Login to Memory Game!</h2>
+      <input type="text" name="username" id="user" class="user" />
     </div>
+    <div id="game" class="game">
+      <div class="input">
+        <h3>Choose difficulty:</h3>
+        <input
+          type="radio"
+          checked="true"
+          name="level"
+          id="easy"
+          value="easy"
+        /><span>Easy</span>
+        <input type="radio" name="level" id="medium" value="medium" /><span
+          >Medium</span
+        >
+        <input type="radio" name="level" id="hard" value="hard" />
+        <span>Hard</span>
+      </div>
 
-    <h1 id="memoryGame">
-      Memory Game: Enter your username, confirm with Enter and choose
-      difficulty.<br />
-      After you click on a card the timer starts the game! Good luck! 🍀
-    </h1>
-
-    <h1 id="timer">Your time:</h1>
-    <div class="table-container">
+      <h1 id="memoryGame">
+        Memory Game: Enter your username, confirm with Enter and choose
+        difficulty.<br />
+        After you click on a card the timer starts the game! Good luck! 🍀
+      </h1>
       <div class="img-container">
         <div id="table"></div>
       </div>
+
+      <h1 id="timer">Your time:</h1>
+    </div>
+
+    <div id="leaderboardTable" class="leaderboardTable">
       <div id="results">
         <div id="btn">
           <h3>Press difficulty button for updated result!</h3>

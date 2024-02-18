@@ -58,18 +58,21 @@ let src = [
   "icons/yt.png",
   "icons/gdrive.png",
 ];
+
+let loginPage = document.getElementById("login");
+let gamePage = document.getElementById("game");
+let leaderboardPage = document.getElementById("leaderboardTable");
+
 let divBtns = document.querySelector("#btn");
 let hTimer = document.querySelector("#timer");
 
 let easy = document.querySelector("#easy");
 let medium = document.querySelector("#medium");
 let hard = document.querySelector("#hard");
-let expert = document.querySelector("#expert");
 
 let resultsEasy = document.getElementById("Easy");
 let resultsMedium = document.getElementById("Medium");
 let resultsHard = document.getElementById("Hard");
-let resultsExpert = document.getElementById("Expert");
 
 let divTable = document.querySelector("#table");
 
@@ -82,14 +85,12 @@ let timerStarted = false;
 easy.disabled = true;
 medium.disabled = true;
 hard.disabled = true;
-expert.disabled = true;
 hTimer.innerHTML = "";
 
 const clickEventHandler = () => {
   easy.disabled = true;
   medium.disabled = true;
   hard.disabled = true;
-  expert.disabled = true;
   console.log(`klik`);
   console.log(timerStarted);
   if (!timerStarted) {
@@ -100,7 +101,8 @@ const clickEventHandler = () => {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-  showLeaderboard(selectedDifficulty);
+  gamePage.classList.add("hide");
+  leaderboardPage.classList.add("hide");
 });
 
 username.addEventListener("keyup", function (event) {
@@ -132,11 +134,6 @@ username.addEventListener("keyup", function (event) {
       picMaker(src, 8, 8, selectedDifficulty);
     });
 
-    expert.addEventListener("click", () => {
-      selectedDifficulty = "Expert";
-      picMaker(src, 10, 10, selectedDifficulty);
-    });
-
     if (currentUsername === "" || currentUsername.length <= 3) {
       alert("Please enter a valid username!");
       divTable.innerHTML = "";
@@ -146,7 +143,6 @@ username.addEventListener("keyup", function (event) {
       easy.disabled = false;
       medium.disabled = false;
       hard.disabled = false;
-      expert.disabled = false;
       event.preventDefault();
       username.placeholder = currentUsername;
       stopTimer();
@@ -164,8 +160,4 @@ resultsMedium.addEventListener("click", () => {
 
 resultsHard.addEventListener("click", () => {
   showLeaderboard("Hard");
-});
-
-resultsExpert.addEventListener("click", () => {
-  showLeaderboard("Expert");
 });

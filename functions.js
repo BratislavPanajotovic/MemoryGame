@@ -121,7 +121,6 @@ function picMaker(src, rows, cols, selectedDifficulty) {
       easy.disabled = true;
       medium.disabled = true;
       hard.disabled = true;
-      expert.disabled = true;
       stopTimer();
       console.log(`${timerStarted}`);
       document.querySelector("#timer").innerHTML = "Your time: ";
@@ -136,7 +135,6 @@ function picMaker(src, rows, cols, selectedDifficulty) {
       easy.disabled = true;
       medium.disabled = true;
       hard.disabled = true;
-      expert.disabled = true;
     }
   }
 
